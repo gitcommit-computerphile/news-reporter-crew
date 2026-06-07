@@ -11,11 +11,14 @@ topic_definition_task:
 news_hunting_task:
   description: >
     Search the internet for the latest news about {topic}.
-    Use the search tool to find 3-5 recent, credible news items published within the last 6 months.
-    For each item record: headline, source, URL, date, and a 1-2 sentence summary.
-    Discard any result older than 6 months. Do not scrape full articles — search results are sufficient.
+    Use the search tool to find 3-5 recent, credible news items.
+    For each item record: headline, source, URL, publication date, and a 1-2 sentence summary.
+    STRICT RULE: Only include items published on or after {cutoff_date}.
+    Any item without a clear publication date, or with a date before {cutoff_date}, must be discarded entirely.
+    Do not scrape full articles — search results are sufficient.
   expected_output: >
-    3-5 news items, each with: headline, source, URL, date, and a 1-2 sentence summary.
+    3-5 news items published on or after {cutoff_date}, each with: headline, source, URL,
+    publication date (YYYY-MM-DD), and a 1-2 sentence summary.
     End with one sentence identifying the main theme across all items.
   agent: news_hunter
   output_file: output/2_raw_news.md
@@ -23,12 +26,14 @@ news_hunting_task:
 fact_checking_task:
   description: >
     Review the gathered news items about {topic}.
-    For each claim label it VERIFIED, SINGLE-SOURCE, or UNVERIFIED.
+    First, discard any item with a publication date before {cutoff_date} — do not include them at all.
+    For remaining items, label each claim VERIFIED, SINGLE-SOURCE, or UNVERIFIED.
     Use the search tool only for claims you cannot confidently label from the provided sources.
     Remove anything UNVERIFIED and note why.
   expected_output: >
-    A concise verified brief (max 200 words) with only VERIFIED/SINGLE-SOURCE facts,
-    each with source attribution, plus a short "Removed" note for anything cut.
+    A concise verified brief (max 200 words) with only VERIFIED/SINGLE-SOURCE facts
+    published on or after {cutoff_date}, each with source and date attribution,
+    plus a short "Removed" note for anything cut.
   agent: fact_checker
   output_file: output/3_verified_news.md
 

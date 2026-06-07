@@ -1,7 +1,13 @@
+from datetime import datetime, timedelta
+
 from crewai.flow.flow import Flow, listen, start
 from pydantic import BaseModel
 
 from latest_news.crew import NewsReporterCrew
+
+
+def _cutoff_date() -> str:
+    return (datetime.now() - timedelta(days=180)).strftime("%Y-%m-%d")
 
 
 class NewsState(BaseModel):
@@ -30,7 +36,7 @@ class NewsReporterFlow(Flow[NewsState]):
     @listen(start_pipeline)
     def run_news_crew(self):
         result = NewsReporterCrew().crew().kickoff(
-            inputs={"topic": self.state.topic}
+            inputs={"topic": self.state.topic, "cutoff_date": _cutoff_date()}
         )
         self.state.article = result.raw
         return result.raw

@@ -5,7 +5,9 @@ description = "latest_news using crewAI"
 authors = [{ name = "Your Name", email = "you@example.com" }]
 requires-python = ">=3.10,<3.14"
 dependencies = [
-    "crewai[openai,tools]>=0.102.0"
+    "crewai[openai,tools]>=0.102.0",
+    "streamlit>=1.35.0",
+    "sqlalchemy>=2.0.0",
 ]
 
 [project.scripts]
@@ -15,6 +17,7 @@ train = "latest_news.main:train"
 replay = "latest_news.main:replay"
 test = "latest_news.main:test"
 run_with_trigger = "latest_news.main:run_with_trigger"
+run_app = "latest_news.main:run_app"
 
 [build-system]
 requires = ["hatchling"]

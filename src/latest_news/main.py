@@ -56,6 +56,15 @@ def test():
         raise Exception(f"An error occurred while testing the crew: {e}")
 
 
+def run_app():
+    """Launch the Streamlit UI."""
+    import subprocess
+    import os
+
+    app_path = os.path.join(os.path.dirname(__file__), "app.py")
+    subprocess.run(["streamlit", "run", app_path], check=True)
+
+
 def run_with_trigger():
     """Run the flow with a JSON trigger payload."""
     import json

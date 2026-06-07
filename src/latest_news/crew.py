@@ -1,6 +1,7 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
+from crewai.memory.unified_memory import Memory
 from crewai_tools import SerperDevTool
 
 
@@ -97,4 +98,11 @@ class NewsReporterCrew:
             verbose=True,
             max_rpm=5,
             respect_context_window=True,
+            memory=Memory(
+                llm="gpt-5.4-mini",
+                embedder={
+                    "provider": "openai",
+                    "config": {"model": "text-embedding-3-small"},
+                },
+            ),
         )
