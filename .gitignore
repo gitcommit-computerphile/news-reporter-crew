@@ -1,0 +1,22 @@
+# Environment
+.env
+
+# Claude
+CLAUDE.md
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment
+.venv/
+
+# CrewAI outputs
+output/
+
+# OS
+.DS_Store
+Thumbs.db

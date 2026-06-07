@@ -1,0 +1,50 @@
+topic_definition_task:
+  description: >
+    In 3-5 bullet points, define the editorial scope for news coverage about: {topic}.
+    Include: the key angle, 2-3 questions to answer, preferred time frame, and source types to use.
+    Be concise — this is a quick brief, not an essay.
+  expected_output: >
+    A brief (max 150 words) editorial scope with key angle, 2-3 questions, time frame, and source guidelines.
+  agent: manager
+  output_file: output/1_editorial_brief.md
+
+news_hunting_task:
+  description: >
+    Search the internet for the latest news about {topic}.
+    Use the search tool to find 3-5 recent, credible news items published within the last 6 months.
+    For each item record: headline, source, URL, date, and a 1-2 sentence summary.
+    Discard any result older than 6 months. Do not scrape full articles — search results are sufficient.
+  expected_output: >
+    3-5 news items, each with: headline, source, URL, date, and a 1-2 sentence summary.
+    End with one sentence identifying the main theme across all items.
+  agent: news_hunter
+  output_file: output/2_raw_news.md
+
+fact_checking_task:
+  description: >
+    Review the gathered news items about {topic}.
+    For each claim label it VERIFIED, SINGLE-SOURCE, or UNVERIFIED.
+    Use the search tool only for claims you cannot confidently label from the provided sources.
+    Remove anything UNVERIFIED and note why.
+  expected_output: >
+    A concise verified brief (max 200 words) with only VERIFIED/SINGLE-SOURCE facts,
+    each with source attribution, plus a short "Removed" note for anything cut.
+  agent: fact_checker
+  output_file: output/3_verified_news.md
+
+article_writing_task:
+  description: >
+    Write a short news article about {topic} using only the verified facts.
+    Include: headline (H1), lead paragraph (who/what/when/where/why),
+    2-3 body paragraphs with inline attribution, and a references section.
+    Each reference must include the clickable URL and the date it was published or posted online.
+    Keep it under 400 words. Clean markdown only.
+  expected_output: >
+    A 300-400 word markdown news article with:
+    - H1 headline
+    - Lead paragraph
+    - 2-3 body paragraphs with inline attribution
+    - A "## References" section listing each source as: [Source Name](URL) — Published: YYYY-MM-DD
+    Professional tone, every factual claim attributed.
+  agent: editor
+  output_file: output/news_article.md
